@@ -17,7 +17,7 @@ def get_game(id):
         return jsonify({"error": "Game not found"}), 404
     return jsonify(game.to_dict()), 200
 
-@catalogue_bp.route('/games/<id>', methods=['PUT'])
+@catalogue_bp.route('/games/<id>', methods=['PATCH'])
 def update_game(id):
     """Update dynamic parameters of a game (price, active discount, availability)."""
     data = request.get_json()
