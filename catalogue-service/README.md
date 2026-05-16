@@ -73,6 +73,19 @@ python run.py
 
 ```bash
 cd ..
-docker compose up -d catalogue-service
+podman compose up -d catalogue-service
+# or: docker compose up -d catalogue-service
 ```
-*(Or use `podman-compose` if you are using Podman).*
+
+### Cleanup (Keep Podman / Docker clean)
+
+To stop and clean up containers, networks, volumes, and dangling images:
+
+```bash
+podman compose down -v
+# or: docker compose down -v
+
+# Prune unused/dangling build images to free up disk space
+podman image prune -f
+# or: docker image prune -f
+```
