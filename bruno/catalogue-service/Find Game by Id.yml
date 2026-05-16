@@ -1,0 +1,117 @@
+info:
+  name: Find Game by Id
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{catalogue_service_url}}/games/:id"
+  params:
+    - name: id
+      value: GAME-102
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK Low Latency
+    request:
+      url: 127.0.0.1:5000/games/:id
+      method: GET
+      params:
+        - name: id
+          value: GAME-001
+          type: path
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: server
+          value: Werkzeug/3.1.8 Python/3.13.13
+        - name: date
+          value: Sat, 16 May 2026 23:14:33 GMT
+        - name: content-type
+          value: application/json
+        - name: content-length
+          value: "145"
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "activeDiscount": true,
+            "available": true,
+            "categories": "Action;RPG",
+            "discountPercentage": 10.0,
+            "id": "GAME-001",
+            "name": "The Witcher 4",
+            "price": 60.0
+          }
+  - name: OK High Latency
+    request:
+      url: 127.0.0.1:5000/games/:id
+      method: GET
+      params:
+        - name: id
+          value: GAME-002
+          type: path
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: server
+          value: Werkzeug/3.1.8 Python/3.13.13
+        - name: date
+          value: Sat, 16 May 2026 23:14:56 GMT
+        - name: content-type
+          value: application/json
+        - name: content-length
+          value: "149"
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "activeDiscount": false,
+            "available": true,
+            "categories": "Action;Sci-Fi",
+            "discountPercentage": 0.0,
+            "id": "GAME-002",
+            "name": "Cyberpunk 2078",
+            "price": 50.0
+          }
+  - name: 404 Not found
+    request:
+      url: 127.0.0.1:5000/games/:id
+      method: GET
+      params:
+        - name: id
+          value: GAME-102
+          type: path
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: server
+          value: Werkzeug/3.1.8 Python/3.13.13
+        - name: date
+          value: Sat, 16 May 2026 23:18:11 GMT
+        - name: content-type
+          value: application/json
+        - name: content-length
+          value: "27"
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "error": "Game not found"
+          }

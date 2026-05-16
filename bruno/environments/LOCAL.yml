@@ -1,0 +1,4 @@
+name: LOCAL
+variables:
+  - name: catalogue_service_url
+    value: http://127.0.0.1:5000

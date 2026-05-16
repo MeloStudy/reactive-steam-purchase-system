@@ -1,0 +1,107 @@
+info:
+  name: Update Game
+  type: http
+  seq: 3
+
+http:
+  method: PATCH
+  url: "{{catalogue_service_url}}/games/:id"
+  params:
+    - name: id
+      value: GAME-101
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "available": false,
+        "activeDiscount": true,
+        "price": 25.00
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK update
+    request:
+      url: 127.0.0.1:5000/games/:id
+      method: PATCH
+      params:
+        - name: id
+          value: GAME-001
+          type: path
+      body:
+        type: json
+        data: |-
+          {
+            "available": false,
+            "activeDiscount": true,
+            "price": 25.00
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: server
+          value: Werkzeug/3.1.8 Python/3.13.13
+        - name: date
+          value: Sat, 16 May 2026 23:17:34 GMT
+        - name: content-type
+          value: application/json
+        - name: content-length
+          value: "146"
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "activeDiscount": true,
+            "available": false,
+            "categories": "Action;RPG",
+            "discountPercentage": 10.0,
+            "id": "GAME-001",
+            "name": "The Witcher 4",
+            "price": 25.0
+          }
+  - name: 404 Not found
+    request:
+      url: 127.0.0.1:5000/games/:id
+      method: PATCH
+      params:
+        - name: id
+          value: GAME-101
+          type: path
+      body:
+        type: json
+        data: |-
+          {
+            "available": false,
+            "activeDiscount": true,
+            "price": 25.00
+          }
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: server
+          value: Werkzeug/3.1.8 Python/3.13.13
+        - name: date
+          value: Sat, 16 May 2026 23:17:50 GMT
+        - name: content-type
+          value: application/json
+        - name: content-length
+          value: "27"
+        - name: connection
+          value: close
+      body:
+        type: json
+        data: |-
+          {
+            "error": "Game not found"
+          }
