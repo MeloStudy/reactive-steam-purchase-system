@@ -2,14 +2,19 @@
 
 Mini-project about a video game store system using reactive and legacy components, for educational purposes.
 
+We are going to simulate: 
+- In cart placement 
+- aggregating price, discounts and availability, validating in library status, purchase allowed, totals, and disclaimers
 
 ## Requirements
 - Docker or Podman
+- Docker Compose or Podman Compose
 - Java 17 (for manual deployment)
-- Python 3.2 (for manual deployment)
+- Python 3.13 (for manual deployment)
 
 ## Optional
-- [IntelliJ Mermaid Plugin](https://plugins.jetbrains.com/plugin/30432-mermaid-visualizer): To visualize mermaid diagrams in readme.md
+- [IntelliJ Mermaid Plugin](https://plugins.jetbrains.com/plugin/30432-mermaid-visualizer): To visualize mermaid diagrams in intelliJ
+- [VSCode MermaidChart](https://open-vsx.org/vscode/item?itemName=MermaidChart.vscode-mermaid-chart): To visualize mermaid diagrams in VSCode
 
 # System architecture
 
@@ -27,12 +32,12 @@ graph TD
         storeService -->|mongoDB Driver| shoppingCartDb
     end
     
-    storeService ==Web Client / HTTP==> catalogService
+    storeService ==Web Client / HTTP==> catalogueService
     
-    subgraph catalogSystem [Catalog System]
-        catalogService[Catalog Service]
-        catalogDb[(CatalogDB)]
+    subgraph catalogueSystem [Catalogue System]
+        catalogueService[Catalogue Service]
+        catalogueDb[(CatalouegDB)]
         
-        catalogService -->|SQLite3 blocking| catalogDb
+        catalogueService -->|SQLite3 blocking| catalogueDb
     end
 ```

@@ -1,0 +1,11 @@
+services:
+  catalogue-service:
+    build:
+      context: ./catalogue-service
+      dockerfile: Dockerfile
+    container_name: catalogue-service
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./catalogue-service/instance:/app/instance
+    restart: unless-stopped
