@@ -16,7 +16,7 @@ class Game:
         return {
             "id": self.id,
             "name": self.name,
-            "categories": ";".join(self.categories),
+            "categories": self.categories,
             "price": self.price,
             "available": self.available,
             "discountPercentage": self.discount_percentage,
