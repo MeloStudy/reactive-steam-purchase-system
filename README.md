@@ -36,7 +36,7 @@ graph TD
     
     subgraph catalogueSystem [Catalogue System]
         catalogueService[Catalogue Service]
-        catalogueDb[(CatalouegDB)]
+        catalogueDb[(CatalogueDB)]
         
         catalogueService -->|SQLite3 blocking| catalogueDb
     end
