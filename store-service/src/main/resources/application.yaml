@@ -1,3 +1,21 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: store-service
+
+  # R2DBC config
+  r2dbc:
+    url: r2dbc:h2:mem:///library?options=DB_CLOSE_DELAY=-1;
+    username: sa
+    password: ""
+
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/cart_db}
+
+# External Legacy Service
+services:
+  catalogue:
+    url: ${CATALOGUE_SERVICE_URL:http://localhost:5000}
