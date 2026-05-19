@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Table("library_items")
 public class LibraryItem {
     @Id
-    private String itemId;
+    private Long itemId;
     private String userId;
     private String gameId;
     private LocalDateTime purchaseDate;
