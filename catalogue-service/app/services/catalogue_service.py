@@ -17,7 +17,7 @@ class CatalogueService:
     def get_game_by_id(game_id: str) -> Optional[Game]:
         """Retrieve a specific game by ID, introducing latency if it matches legacy items."""
         if game_id in LATENCY_GAMES:
-            time.sleep(random.uniform(2.0, 5.0))
+            time.sleep(random.uniform(2.0, 3.0))
         return GameRepository.get_by_id(game_id)
 
     @staticmethod
