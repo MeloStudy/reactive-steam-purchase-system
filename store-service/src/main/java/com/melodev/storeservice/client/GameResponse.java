@@ -20,7 +20,7 @@ public class GameResponse {
     private double discountPercentage;
     private boolean activeDiscount;
 
-    private boolean isDummy() {
+    public boolean isDummy() {
         return id == null;
     }
 

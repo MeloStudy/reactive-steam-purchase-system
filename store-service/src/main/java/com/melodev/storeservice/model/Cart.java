@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.melodev.storeservice.config.ContextUser.USER_DEFAULT_ID;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -23,4 +25,17 @@ public class Cart {
     @Field("updated_at")
     private LocalDateTime updatedAt;
     private String status;
+
+    public boolean isInCart(String gameId) {
+        return items.stream().anyMatch(item -> item.getGameId().equals(gameId));
+    }
+
+    public static Cart perDefault() {
+        return Cart.builder()
+                .userId(USER_DEFAULT_ID)
+                .items(List.of())
+                .updatedAt(LocalDateTime.now())
+                .status("ACTIVE")
+                .build();
+    }
 }
