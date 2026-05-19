@@ -23,7 +23,13 @@ spring:
 # External Legacy Service
 services:
   catalogue:
-    url: ${CATALOGUE_SERVICE_URL:http://localhost:5000}
+    base-url: ${CATALOGUE_SERVICE_URL:http://localhost:5000}
+    timeout:
+      response-ms: 2500
+      sla-ms: 5000
+    retry:
+      max-attempts: 3
+      initial-backoff-ms: 100
 
 
 # Logging
