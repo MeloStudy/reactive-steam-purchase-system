@@ -2,6 +2,11 @@ server:
   port: 8080
 
 spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  main:
+    banner-mode: off
   application:
     name: store-service
 
@@ -19,3 +24,12 @@ spring:
 services:
   catalogue:
     url: ${CATALOGUE_SERVICE_URL:http://localhost:5000}
+
+
+# Logging
+logging:
+  level:
+    com:
+      melodev: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %clr(%-5level) [%10.10t] %30.30logger{2} : %msg %n"
