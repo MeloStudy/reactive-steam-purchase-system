@@ -84,7 +84,7 @@ public class CatalogueClient {
                 })
                 .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> {
                     log.error("All retries exhausted. Propagating final error.");
-                    return new ApiServiceException("Service unavailable after maximum retries", retrySignal.failure());
+                    return new ApiServiceException("Catalogue Service unavailable after maximum retries", retrySignal.failure());
                 });
     }
 

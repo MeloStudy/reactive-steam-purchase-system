@@ -39,7 +39,7 @@ public class CartService {
                 .flatMap(game -> this.getActiveCart()
                         .switchIfEmpty(Mono.defer(() -> {
                             log.info("Active cart not found -> Creating new active cart");
-                            return cartRepository.save(Cart.perDefault());
+                            return cartRepository.save(Cart.perDefault()); // possible race condition: assumed
                         }))
                         .flatMap(cart -> {
                             if (cart.isInCart(itemId)) return Mono.error(new GameAlreadyInCartException(itemId));
