@@ -1,24 +1,20 @@
-# ── Build Stage ─────────────────────────────────────────────────────────────
-FROM eclipse-temurin:21-jdk-alpine AS builder
-
+# Stage 1: Build
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 
-# Copy Maven wrapper and pom first to leverage Docker layer caching
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-
-RUN ./mvnw dependency:go-offline -q
-
-# Copy source and build the fat JAR (skip tests — already validated locally)
+# Copy POM and source code
+COPY pom.xml .
 COPY src ./src
-RUN ./mvnw package -DskipTests -q
 
-# ── Runtime Stage ────────────────────────────────────────────────────────────
+# Build the application
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run
 FROM eclipse-temurin:21-jre-alpine
-
 WORKDIR /app
 
-COPY --from=builder /app/target/store-service-0.0.1-SNAPSHOT.jar app.jar
+# Copy build result from Stage 1
+COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
 

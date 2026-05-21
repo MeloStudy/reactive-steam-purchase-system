@@ -1,5 +1,7 @@
 # Store Service
 
+This component represents a reactive steam store component that manage shopping carts and user's library.
+
 ## Dependencies
 
 - Lombok
@@ -7,6 +9,8 @@
 - Spring Data R2DBC
 - R2DBC H2
 - Spring Data Reactive MongoDB
+- Java 21
+- Maven 3.9
 
 ## Simplifications
 
@@ -53,13 +57,14 @@ erDiagram
 
 ## Services
 
-
 ### Get Cart History
+
 `GET /cart/history`
 
 Returns all carts for the current user (active and closed).
 
 ### Add to Cart
+
 `POST /cart/items`
 
 Adds a game to the active cart and return the updated cart.
@@ -70,14 +75,16 @@ Adds a game to the active cart and return the updated cart.
 }
 ```
 
-
 ### Remove from Cart
+
 `DELETE /cart/items/{itemId}`
 Removes the specified game from the active cart.
 
 **Graceful behaviors:**
+
 - If the game is **not in the cart**, returns the cart unchanged.
 - If there is **no active cart**, returns a `DRAFT` cart instead of an error:
+
 ```json
 {
   "cart_id": "NOT-DEFINED",
@@ -87,7 +94,6 @@ Removes the specified game from the active cart.
   "checkout_allowed": false
 }
 ```
-
 
 ### Get Active Cart
 
@@ -129,4 +135,24 @@ library ownership status, and checkout eligibility.
     "Remove unavailable games"
   ]
 }
+```
+
+## Execution
+
+> ```bash
+> cd store-service
+> ```
+
+### Local Development (Java)
+
+```bash
+mvn spring-boot:run
+```
+
+### Docker / Podman
+
+```bash
+cd ..
+podman compose up -d store-service
+# or: docker compose up -d store-service
 ```
