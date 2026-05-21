@@ -12,6 +12,23 @@ services:
       - purchase-system
     restart: unless-stopped
 
+  store-service:
+    build:
+      context: ./store-service
+      dockerfile: Dockerfile
+    container_name: store-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://cart_db:27017/cart_db
+      - CATALOGUE_SERVICE_URL=http://catalogue-service:5000
+    depends_on:
+      - cart_db
+      - catalogue-service
+    networks:
+      - purchase-system
+    restart: unless-stopped
+
   cart_db:
       image: mongo:7.0
       container_name: cart_db

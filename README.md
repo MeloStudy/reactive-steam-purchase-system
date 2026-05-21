@@ -82,7 +82,7 @@ docker compose up -d
 podman compose up -d
 ```
 
-*This starts the `store-service` on `http://localhost:8080`, `catalogue-service` on `http://localhost:5000`, and MongoDB on `localhost:27017`.*
+*This starts all three services: `store-service` on `http://localhost:8080`, `catalogue-service` on `http://localhost:5000`, and MongoDB on `localhost:27017`.*
 
 #### Cleanup (Docker/Podman)
 
