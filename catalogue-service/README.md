@@ -25,6 +25,18 @@ The following games introduce an artificial delay of **2.0 to 3.0 seconds** on `
 | `GAME-004` | Slow legacy game   |
 | `GAME-005` | Slow legacy game   |
 
+## Initial State
+
+The database is **re-seeded on every startup** (existing data is dropped and recreated). Initial catalogue:
+
+| Game ID    | Name                    | Categories        | Price   | Available | Discount | Active Discount |
+|------------|-------------------------|-------------------|---------|-----------|----------|-----------------|
+| `GAME-001` | The Witcher 4           | Action;RPG        | $60.00  | ✅        | 10%      | ✅              |
+| `GAME-002` | Cyberpunk 2078       | Action;Sci-Fi     | $50.00  | ✅        | 0%       | ❌              |
+| `GAME-003` | Stardew Valley 2        | Simulation;RPG    | $20.00  | ✅        | 25%      | ✅              |
+| `GAME-004` | Hollow Knight: Silksong | Action;Platformer | $30.00 | ✅        | 0%       | ❌              |
+| `GAME-005` | Half-Life 3          | Action;Sci-Fi     | $70.00  | ❌        | 0%       | ❌              |
+
 ## DB Modeling
 
 Database Motor: SQLite

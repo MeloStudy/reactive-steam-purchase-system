@@ -120,3 +120,38 @@ mvn spring-boot:run
 ```
 
 *Runs on `http://localhost:8080`.*
+
+## Testing Guide — Add Item to Cart Scenarios
+
+When the `store-service` starts, `SqlDataInitializer` automatically seeds the following state:
+
+| Resource | Details |
+|----------|---------| 
+| **User** | `USER-001` named `MeloDev` |
+| **Library** | Contains `GAME-005` and `GAME-007` (already owned games) |
+| **MongoDB** | One cart `CART-001` in `CLOSED` status with `GAME-001` |
+
+> ⚠️ There is **no** `ACTIVE` cart at startup.
+
+The `catalogue-service` database is **re-seeded on every startup** with the following games:
+
+| Game ID    | Name                       | Price   | Available | Discount | Active Discount |
+|------------|----------------------------|---------|-----------|----------|-----------------|
+| `GAME-001` | The Witcher 4              | $60.00  | ✅        | 10%      | ✅              |
+| `GAME-002` | Cyberpunk 2078 ⏱️          | $50.00  | ✅        | 0%       | ❌              |
+| `GAME-003` | Stardew Valley 2           | $20.00  | ✅        | 25%      | ✅              |
+| `GAME-004` | Hollow Knight: Silksong ⏱️ | $30.00  | ✅        | 0%       | ❌              |
+| `GAME-005` | Half-Life 3 ⏱️             | $70.00  | ❌        | 0%       | ❌              |
+
+> ⏱️ These games introduce artificial latency of 2–3 seconds on `GET /games/{id}`.
+
+The table below summarizes the key scenarios for `POST /cart/items`. Run them in order for the full flow:
+
+| # | Scenario | Game | Service Call | Expected Result | HTTP |
+|---|----------|------|--------------|-----------------|------|
+| 1 | First item — no active cart exists | `GAME-003` | `POST :8080/cart/items` | ✅ New cart created with item | `200` |
+| 2 | Second item — active cart exists | `GAME-001` | `POST :8080/cart/items` | ✅ Item appended to existing cart | `200` |
+| 3 | Game does not exist in catalogue | `GAME-999` | `POST :8080/cart/items` | ❌ `GameNotFoundException` | `404` |
+| 4 | Game exists but is unavailable *(slow — 2-3s latency)* | `GAME-005` | `GET :5000/games/GAME-005` → `POST :8080/cart/items` | ❌ `GameNotAvailableException` | `400` |
+| 5 | Game already in cart *(intentional unhandled exception)* | `GAME-003` | `POST :8080/cart/items` | 💥 `GameAlreadyInCartException` — default Spring 500 | `500` |
+| B | Game already owned in library | `GAME-007` | `POST :8080/cart/items` → `GET :8080/cart` | ⚠️ Added but enriched with `OWNED` status | `200` |
