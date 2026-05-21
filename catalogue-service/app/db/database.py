@@ -42,7 +42,8 @@ def init_db():
         ("GAME-002", "Cyberpunk 2078", "Action;Sci-Fi", 50.00, 1, 0.00, 0),
         ("GAME-003", "Stardew Valley 2", "Simulation;RPG", 20.00, 1, 25.00, 1),
         ("GAME-004", "Hollow Knight: Silksong", "Action;Platformer", 30.00, 1, 0.00, 0),
-        ("GAME-005", "Half-Life 3", "Action;Sci-Fi", 70.00, 0, 0.00, 0)
+        ("GAME-005", "Half-Life 3", "Action;Sci-Fi", 70.00, 0, 0.00, 0),
+        ("GAME-007", "Grand Theft Auto VI", "Action;Adventure", 80.00, 1, 0.00, 0)
     ]
     
     cursor.executemany('''
