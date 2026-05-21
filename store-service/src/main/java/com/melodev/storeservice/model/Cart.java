@@ -38,4 +38,14 @@ public class Cart {
                 .status("ACTIVE")
                 .build();
     }
+
+    public static Cart draft() {
+        return Cart.builder()
+                .cartId("NOT-DEFINED")
+                .userId(USER_DEFAULT_ID)
+                .items(List.of())
+                .updatedAt(LocalDateTime.now())
+                .status("DRAFT")
+                .build();
+    }
 }

@@ -62,7 +62,7 @@ public class CartService {
                 .doOnNext(c -> log.info("Successfully game {} removed from cart", itemId))
                 .switchIfEmpty(Mono.defer(() -> {
                     log.info("No active cart found to remove game {}", itemId);
-                    return Mono.empty();
+                    return Mono.just(Cart.draft());
                 }));
     }
 }
