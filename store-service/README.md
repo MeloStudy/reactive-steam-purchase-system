@@ -13,6 +13,7 @@
 - Fusion shopping cart, library and user for simplicity
 - Not available purchases for other person
 - All the data will be related to a unique user, multi users will not be considered
+- `GameAlreadyInCartException` is intentionally left unhandled in `GlobalExceptionHandler`
 
 ## DB Modeling
 
@@ -52,9 +53,46 @@ erDiagram
 
 ## Services
 
-### List Cart
 
-Return all games in catalogue
+### Get Cart History
+`GET /cart/history`
+
+Returns all carts for the current user (active and closed).
+
+### Add to Cart
+`POST /cart/items`
+
+Adds a game to the active cart and return the updated cart.
+
+```json
+{
+  "game_id": "GAME-001"
+}
+```
+
+
+### Remove from Cart
+`DELETE /cart/items/{itemId}`
+Removes the specified game from the active cart.
+
+**Graceful behaviors:**
+- If the game is **not in the cart**, returns the cart unchanged.
+- If there is **no active cart**, returns a `DRAFT` cart instead of an error:
+```json
+{
+  "cart_id": "NOT-DEFINED",
+  "user_id": "USER-001",
+  "items": [],
+  "status": "DRAFT",
+  "checkout_allowed": false
+}
+```
+
+
+### Get Active Cart
+
+Returns the current user's active cart with enriched data: real-time prices, discounts,
+library ownership status, and checkout eligibility.
 
 ```json
 {
@@ -90,13 +128,5 @@ Return all games in catalogue
   "validations": [
     "Remove unavailable games"
   ]
-}
-```
-
-### Add to Cart
-
-```json
-{
-  "game_id": "GAME-001"
 }
 ```

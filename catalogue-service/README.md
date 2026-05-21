@@ -1,17 +1,32 @@
 # Catalogue Service
-This component represents a legacy catalogue system, simulating artificial latency for some games 
-and using a blocking database connection. 
+
+This component represents a legacy catalogue system, simulating artificial latency for some games
+and using a blocking database connection.
 
 ## Dependencies
-- Docker or Podman 
+
+- Docker or Podman
 - Docker Compose or Podman Compose
 - Python 3.13 (for manual deployment)
 
 ## Simplifications
+
 - Fusing catalogue and discount attributes for simplicity
 - No currency, multiple purchasing, consumable types, or other considerations
 
+## Latency Simulation
+
+This service intentionally simulates the behavior of a slow legacy system.
+The following games introduce an artificial delay of **2.0 to 3.0 seconds** on `GET /games/{id}`:
+
+| Game ID    | Simulated Behavior |
+|------------|--------------------|
+| `GAME-002` | Slow legacy game   |
+| `GAME-004` | Slow legacy game   |
+| `GAME-005` | Slow legacy game   |
+
 ## DB Modeling
+
 Database Motor: SQLite
 
 ```mermaid
@@ -29,10 +44,18 @@ erDiagram
 
 ## Services
 
+| Method  | Path          | Description                                              |
+|---------|---------------|----------------------------------------------------------|
+| `GET`   | `/games`      | List all games in the catalogue                          |
+| `GET`   | `/games/{id}` | Get a single game by ID (may trigger latency simulation) |
+| `PATCH` | `/games/{id}` | Update price, discount, or availability of a game        |
+
 ### List Games
+
 Return all games in catalogue
 
 ### Get Game by ID
+
 ```json
 {
   "id": "GAME-001",
@@ -46,6 +69,7 @@ Return all games in catalogue
 ```
 
 ### Update Game
+
 ```json
 {
   "available": false,
@@ -61,6 +85,7 @@ Return all games in catalogue
 > ```
 
 ### Local Development (Python)
+
 ```bash
 # Install dependencies
 pip install -r requirements.txt
