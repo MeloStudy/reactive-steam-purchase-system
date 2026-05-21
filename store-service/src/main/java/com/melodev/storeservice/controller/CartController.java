@@ -6,7 +6,9 @@ import com.melodev.storeservice.service.CartService;
 import com.melodev.storeservice.service.GetComputedCartService;
 import com.melodev.storeservice.service.dtos.CartResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +39,13 @@ public class CartController {
             @RequestBody AddItemRequest request
     ) {
         return cartService.addItemToCart(request.getGameId());
+    }
+
+    @DeleteMapping("/items/{itemId}")
+    public Mono<Cart> removeItemFromCart(
+            @PathVariable String itemId
+    ) {
+        return cartService.removeItemFromCart(itemId);
     }
 
 }

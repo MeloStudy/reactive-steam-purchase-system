@@ -5,4 +5,6 @@ import reactor.core.publisher.Mono;
 
 public interface CartRepositoryCrud {
     Mono<Cart> addItem(String cartId, String itemId);
+
+    Mono<Cart> removeItem(String cartId, String itemId);
 }

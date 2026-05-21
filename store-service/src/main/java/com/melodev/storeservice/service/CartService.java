@@ -49,4 +49,20 @@ public class CartService {
                         .doOnSuccess(c -> log.info("Added element {} to cart {}", game.getId(), c))
                 );
     }
+
+    public Mono<Cart> removeItemFromCart(String itemId) {
+        return this.getActiveCart()
+                .flatMap(cart -> {
+                    if (!cart.isInCart(itemId)) {
+                        log.info("Game {} is not in the active cart, returning cart without changes", itemId);
+                        return Mono.just(cart);
+                    }
+                    return cartRepository.removeItem(cart.getCartId(), itemId);
+                })
+                .doOnNext(c -> log.info("Successfully game {} removed from cart", itemId))
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.info("No active cart found to remove game {}", itemId);
+                    return Mono.empty();
+                }));
+    }
 }

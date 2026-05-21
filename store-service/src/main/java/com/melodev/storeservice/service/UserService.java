@@ -22,4 +22,13 @@ public class UserService {
     public Mono<User> getUser(String userId) {
         return userRepository.findById(userId);
     }
+
+    public Mono<User> updateUsername(String newName) {
+        return me()
+                .flatMap(user -> {
+                    user.setName(newName);
+                    return userRepository.save(user);
+                })
+                .doOnSuccess(u -> log.info("Updated username for user {} to {}", u.getUserId(), u.getName()));
+    }
 }

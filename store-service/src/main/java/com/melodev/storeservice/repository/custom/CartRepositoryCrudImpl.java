@@ -32,4 +32,17 @@ public class CartRepositoryCrudImpl implements CartRepositoryCrud {
         );
     }
 
+    @Override
+    public Mono<Cart> removeItem(String cartId, String itemId) {
+        Query query = new Query(Criteria.where("_id").is(cartId));
+        Update update = new Update()
+                .pull("items", new CartItem(itemId))
+                .set("updated_at", LocalDateTime.now());
+        return reactiveMongoTemplate.findAndModify(
+                query,
+                update,
+                new FindAndModifyOptions().returnNew(true),
+                Cart.class
+        );
+    }
 }
