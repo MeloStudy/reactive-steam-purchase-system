@@ -84,6 +84,20 @@ podman compose up -d
 
 *This starts all three services: `store-service` on `http://localhost:8080`, `catalogue-service` on `http://localhost:5000`, and MongoDB on `localhost:27017`.*
 
+#### Viewing Logs
+To view logs for all services:
+
+```bash
+docker compose logs -f
+# or using podman compose
+```
+
+To view logs for a specific service:
+```bash
+docker compose logs -f store-service
+# or using Podman
+```
+
 #### Cleanup (Docker/Podman)
 
 ```bash
@@ -123,6 +137,8 @@ mvn spring-boot:run
 
 ## Testing Guide — Add Item to Cart Scenarios
 
+You can test the endpoints manually (using `curl`, Postman, etc.) or import the Bruno collection located in the [bruno](./bruno) folder of this repository, selecting the `LOCAL` environment.
+
 When the `store-service` starts, `SqlDataInitializer` automatically seeds the following state:
 
 | Resource | Details |
@@ -142,6 +158,7 @@ The `catalogue-service` database is **re-seeded on every startup** with the foll
 | `GAME-003` | Stardew Valley 2           | $20.00  | ✅        | 25%      | ✅              |
 | `GAME-004` | Hollow Knight: Silksong ⏱️ | $30.00  | ✅        | 0%       | ❌              |
 | `GAME-005` | Half-Life 3 ⏱️             | $70.00  | ❌        | 0%       | ❌              |
+| `GAME-007` | Grand Theft Auto VI       | $80.00  | ✅        | 0%       | ❌              |
 
 > ⏱️ These games introduce artificial latency of 2–3 seconds on `GET /games/{id}`.
 

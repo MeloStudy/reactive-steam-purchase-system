@@ -36,6 +36,7 @@ The database is **re-seeded on every startup** (existing data is dropped and rec
 | `GAME-003` | Stardew Valley 2        | Simulation;RPG    | $20.00  | ✅        | 25%      | ✅              |
 | `GAME-004` | Hollow Knight: Silksong | Action;Platformer | $30.00 | ✅        | 0%       | ❌              |
 | `GAME-005` | Half-Life 3          | Action;Sci-Fi     | $70.00  | ❌        | 0%       | ❌              |
+| `GAME-007` | Grand Theft Auto VI    | Action;Adventure  | $80.00  | ✅        | 0%       | ❌              |
 
 ## DB Modeling
 
