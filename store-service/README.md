@@ -1,6 +1,7 @@
 # Store Service
 
 ## Dependencies
+
 - Lombok
 - Spring Reactive Web
 - Spring Data R2DBC
@@ -8,12 +9,15 @@
 - Spring Data Reactive MongoDB
 
 ## Simplifications
+
 - Fusion shopping cart, library and user for simplicity
 - Not available purchases for other person
 - All the data will be related to a unique user, multi users will not be considered
 
 ## DB Modeling
+
 DB Motor: H2
+
 ```mermaid
 erDiagram
     User {
@@ -30,6 +34,7 @@ erDiagram
 ```
 
 DB Motor: MongoDB
+
 ```mermaid
 erDiagram   
     Cart {
@@ -48,43 +53,50 @@ erDiagram
 ## Services
 
 ### List Cart
+
 Return all games in catalogue
 
 ```json
 {
-  "cart_id": "cart_001",
+  "cart_id": "CART-001",
+  "user_id": "USER-001",
   "items": [
     {
       "id": "GAME-001",
-      "price": 27.00,
+      "original_price": 30.00,
+      "final_price": 27.00,
       "discount": 3.0,
-      "status": "ALLOWED"
+      "status": "OK"
     },
     {
       "id": "GAME-002",
-      "price": 0,
+      "original_price": 0.0,
+      "final_price": 0.0,
+      "discount": 0.0,
       "status": "NOT_AVAILABLE(BANNED | NOT PUBLISHED | RESTRICTED)",
-      "statusMessage": "Not available"
+      "disclaimer": "Not available product"
     },
     {
       "id": "GAME-003",
-      "price": 30.0,
+      "original_price": 30.00,
+      "final_price": 30.00,
+      "discount": 0.0,
       "status": "OWNED",
-      "statusMessage": "Already owned"
+      "disclaimer": "Already owned"
     }
   ],
   "total": 57.0,
   "checkout_allowed": false,
   "validations": [
-    "Remove owned games",
-    "Remove not allowed games per ban, location restriction or availability"
+    "Remove unavailable games"
   ]
 }
 ```
 
 ### Add to Cart
+
 ```json
 {
-  "id": "GAME-001"
+  "game_id": "GAME-001"
 }
 ```

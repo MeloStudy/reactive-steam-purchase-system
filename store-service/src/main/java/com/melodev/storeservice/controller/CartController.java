@@ -3,6 +3,8 @@ package com.melodev.storeservice.controller;
 import com.melodev.storeservice.controller.requests.AddItemRequest;
 import com.melodev.storeservice.model.Cart;
 import com.melodev.storeservice.service.CartService;
+import com.melodev.storeservice.service.GetComputedCartService;
+import com.melodev.storeservice.service.dtos.CartResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CartController {
     private final CartService cartService;
+    private final GetComputedCartService getComputedCartService;
 
     @GetMapping("/history")
     public Flux<Cart> getAllCarts() {
@@ -24,8 +27,8 @@ public class CartController {
     }
 
     @GetMapping()
-    public Mono<Cart> getActiveCart() {
-        return cartService.getActiveCart();
+    public Mono<CartResponse> getActiveCart() {
+        return getComputedCartService.getComputedCart();
     }
 
 
