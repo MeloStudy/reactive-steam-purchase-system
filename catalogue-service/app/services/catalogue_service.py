@@ -25,4 +25,8 @@ class CatalogueService:
         """Verify business rules (if any) and update the game's details."""
         if "price" in updates and float(updates["price"]) < 0:
             raise ValueError("Price cannot be negative")
+        if "discountPercentage" in updates:
+            discount_pct = float(updates["discountPercentage"])
+            if discount_pct < 0 or discount_pct > 100:
+                raise ValueError("Discount percentage must be between 0 and 100")
         return GameRepository.update(game_id, updates)
