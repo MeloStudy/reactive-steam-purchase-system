@@ -8,7 +8,7 @@ http:
   url: "{{store_service_url}}/cart/items/:itemId"
   params:
     - name: itemId
-      value: GAME-003
+      value: GAME-113
       type: path
   auth: inherit
 
@@ -33,15 +33,24 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "167"
       body:
         type: json
         data: |-
           {
-            "cartId": "CART-NEW",
+            "cartId": "6a0f293837edb2455b8fe1be",
             "userId": "USER-001",
-            "items": [],
-            "status": "ACTIVE",
-            "updatedAt": "2026-05-20T22:10:00"
+            "items": [
+              {
+                "gameId": "GAME-001"
+              },
+              {
+                "gameId": "GAME-007"
+              }
+            ],
+            "updatedAt": "2026-05-21T16:02:22.539",
+            "status": "ACTIVE"
           }
   - name: OK - Game not in cart (returns cart unchanged)
     request:
@@ -49,7 +58,7 @@ examples:
       method: DELETE
       params:
         - name: itemId
-          value: GAME-999
+          value: GAME-113
           type: path
     response:
       status: 200
@@ -57,17 +66,24 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "167"
       body:
         type: json
         data: |-
           {
-            "cartId": "CART-NEW",
+            "cartId": "6a0f293837edb2455b8fe1be",
             "userId": "USER-001",
             "items": [
-              { "gameId": "GAME-003" }
+              {
+                "gameId": "GAME-001"
+              },
+              {
+                "gameId": "GAME-007"
+              }
             ],
-            "status": "ACTIVE",
-            "updatedAt": "2026-05-20T22:00:00"
+            "updatedAt": "2026-05-21T16:02:22.539",
+            "status": "ACTIVE"
           }
   - name: OK - No active cart (returns DRAFT)
     request:
@@ -75,7 +91,7 @@ examples:
       method: DELETE
       params:
         - name: itemId
-          value: GAME-001
+          value: GAME-113
           type: path
     response:
       status: 200
@@ -83,6 +99,8 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "115"
       body:
         type: json
         data: |-
@@ -90,6 +108,6 @@ examples:
             "cartId": "NOT-DEFINED",
             "userId": "USER-001",
             "items": [],
-            "status": "DRAFT",
-            "updatedAt": "2026-05-20T22:10:00"
+            "updatedAt": "2026-05-21T16:04:39.71313641",
+            "status": "DRAFT"
           }

@@ -15,37 +15,6 @@ settings:
   maxRedirects: 5
 
 examples:
-  - name: OK - Cart with items
-    request:
-      url: "{{store_service_url}}/cart"
-      method: GET
-    response:
-      status: 200
-      statusText: OK
-      headers:
-        - name: content-type
-          value: application/json
-      body:
-        type: json
-        data: |-
-          {
-            "cart_id": "CART-NEW",
-            "user_id": "USER-001",
-            "items": [
-              {
-                "id": "GAME-001",
-                "name": "The Witcher 4",
-                "original_price": 60.0,
-                "final_price": 54.0,
-                "discount": 10.0,
-                "status": "OK"
-              }
-            ],
-            "total": 54.0,
-            "checkout_allowed": true,
-            "status": "OK",
-            "validations": []
-          }
   - name: OK - Empty cart (DRAFT)
     request:
       url: "{{store_service_url}}/cart"
@@ -56,6 +25,8 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "130"
       body:
         type: json
         data: |-
@@ -66,5 +37,56 @@ examples:
             "total": 0.0,
             "checkout_allowed": false,
             "status": "DRAFT",
-            "validations": []
+            "validations": null
+          }
+  - name: OK - Cart with items
+    request:
+      url: "{{store_service_url}}/cart"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: content-length
+          value: "490"
+      body:
+        type: json
+        data: |-
+          {
+            "cart_id": "6a0f293837edb2455b8fe1be",
+            "user_id": "USER-001",
+            "items": [
+              {
+                "id": "GAME-007",
+                "original_price": 80.0,
+                "discount": 0.0,
+                "final_price": 80.0,
+                "status": "OWNED",
+                "disclaimer": "Already owned"
+              },
+              {
+                "id": "GAME-001",
+                "original_price": 60.0,
+                "discount": 6.0,
+                "final_price": 54.0,
+                "status": "OK",
+                "disclaimer": null
+              },
+              {
+                "id": "GAME-003",
+                "original_price": 20.0,
+                "discount": 5.0,
+                "final_price": 15.0,
+                "status": "OK",
+                "disclaimer": null
+              }
+            ],
+            "total": 149.0,
+            "checkout_allowed": true,
+            "status": "OK",
+            "validations": [
+              "Remove owned games"
+            ]
           }

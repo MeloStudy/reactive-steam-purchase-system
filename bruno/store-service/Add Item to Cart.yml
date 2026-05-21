@@ -10,7 +10,7 @@ http:
     type: json
     data: |-
       {
-        "game_id": "GAME-003"
+        "game_id": "GAME-007"
       }
   auth: inherit
 
@@ -37,17 +37,21 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "145"
       body:
         type: json
         data: |-
           {
-            "cartId": "CART-NEW",
+            "cartId": "6a0f293837edb2455b8fe1be",
             "userId": "USER-001",
             "items": [
-              { "gameId": "GAME-003" }
+              {
+                "gameId": "GAME-003"
+              }
             ],
-            "status": "ACTIVE",
-            "updatedAt": "2026-05-20T22:00:00"
+            "updatedAt": "2026-05-21T15:48:08.456",
+            "status": "ACTIVE"
           }
   - name: OK - Item added to existing active cart
     request:
@@ -65,18 +69,24 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "167"
       body:
         type: json
         data: |-
           {
-            "cartId": "CART-NEW",
+            "cartId": "6a0f293837edb2455b8fe1be",
             "userId": "USER-001",
             "items": [
-              { "gameId": "GAME-003" },
-              { "gameId": "GAME-001" }
+              {
+                "gameId": "GAME-003"
+              },
+              {
+                "gameId": "GAME-001"
+              }
             ],
-            "status": "ACTIVE",
-            "updatedAt": "2026-05-20T22:01:00"
+            "updatedAt": "2026-05-21T15:48:37.885",
+            "status": "ACTIVE"
           }
   - name: 404 - Game not found
     request:
@@ -94,15 +104,43 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "83"
       body:
         type: json
         data: |-
           {
             "status": 404,
-            "error": "Not Found",
-            "message": "Game GAME-999 not found"
+            "error": "Game Not Found",
+            "message": "Game with id GAME-999 not found"
           }
-  - name: 400 - Game not available (GAME-005 is unavailable + slow)
+  - name: 502 - Catalogue Service not available (GAME-005 is unavailable + slow)
+    request:
+      url: "{{store_service_url}}/cart/items"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "game_id": "GAME-005"
+          }
+    response:
+      status: 502
+      statusText: Bad Gateway
+      headers:
+        - name: content-type
+          value: application/json
+        - name: content-length
+          value: "111"
+      body:
+        type: json
+        data: |-
+          {
+            "status": 502,
+            "error": "External Service Error",
+            "message": "Catalogue Service unavailable after maximum retries"
+          }
+  - name: 400 - Game not processable (GAME-005 is unavailable + slow)
     request:
       url: "{{store_service_url}}/cart/items"
       method: POST
@@ -118,13 +156,15 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "109"
       body:
         type: json
         data: |-
           {
             "status": 400,
-            "error": "Bad Request",
-            "message": "Game GAME-005 is not available"
+            "error": "Game Not Processable",
+            "message": "Game with id GAME-005 is not available in Catalogue"
           }
   - name: 500 - Game already in cart (unhandled - demo exception)
     request:
@@ -142,11 +182,51 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "105"
       body:
         type: json
         data: |-
           {
-            "path": "/cart/items",
             "status": 500,
-            "error": "Internal Server Error"
+            "error": "Internal Server Error",
+            "message": "An unexpected error occurred. Try again later."
+          }
+  - name: OK - Add Item already in Library
+    request:
+      url: "{{store_service_url}}/cart/items"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "game_id": "GAME-007"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+        - name: content-length
+          value: "189"
+      body:
+        type: json
+        data: |-
+          {
+            "cartId": "6a0f293837edb2455b8fe1be",
+            "userId": "USER-001",
+            "items": [
+              {
+                "gameId": "GAME-003"
+              },
+              {
+                "gameId": "GAME-001"
+              },
+              {
+                "gameId": "GAME-007"
+              }
+            ],
+            "updatedAt": "2026-05-21T16:00:12.036",
+            "status": "ACTIVE"
           }

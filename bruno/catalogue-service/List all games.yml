@@ -17,7 +17,7 @@ settings:
 examples:
   - name: OK
     request:
-      url: 127.0.0.1:5000/games
+      url: "{{catalogue_service_url}}/games"
       method: GET
     response:
       status: 200
@@ -26,11 +26,11 @@ examples:
         - name: server
           value: Werkzeug/3.1.8 Python/3.13.13
         - name: date
-          value: Sat, 16 May 2026 23:13:10 GMT
+          value: Thu, 21 May 2026 16:00:02 GMT
         - name: content-type
           value: application/json
         - name: content-length
-          value: "757"
+          value: "938"
         - name: connection
           value: close
       body:
@@ -40,7 +40,10 @@ examples:
             {
               "activeDiscount": true,
               "available": true,
-              "categories": "Action;RPG",
+              "categories": [
+                "Action",
+                "RPG"
+              ],
               "discountPercentage": 10.0,
               "id": "GAME-001",
               "name": "The Witcher 4",
@@ -49,7 +52,10 @@ examples:
             {
               "activeDiscount": false,
               "available": true,
-              "categories": "Action;Sci-Fi",
+              "categories": [
+                "Action",
+                "Sci-Fi"
+              ],
               "discountPercentage": 0.0,
               "id": "GAME-002",
               "name": "Cyberpunk 2078",
@@ -58,7 +64,10 @@ examples:
             {
               "activeDiscount": true,
               "available": true,
-              "categories": "Simulation;RPG",
+              "categories": [
+                "Simulation",
+                "RPG"
+              ],
               "discountPercentage": 25.0,
               "id": "GAME-003",
               "name": "Stardew Valley 2",
@@ -67,7 +76,10 @@ examples:
             {
               "activeDiscount": false,
               "available": true,
-              "categories": "Action;Platformer",
+              "categories": [
+                "Action",
+                "Platformer"
+              ],
               "discountPercentage": 0.0,
               "id": "GAME-004",
               "name": "Hollow Knight: Silksong",
@@ -76,10 +88,25 @@ examples:
             {
               "activeDiscount": false,
               "available": false,
-              "categories": "Action;Sci-Fi",
+              "categories": [
+                "Action",
+                "Sci-Fi"
+              ],
               "discountPercentage": 0.0,
               "id": "GAME-005",
               "name": "Half-Life 3",
               "price": 70.0
+            },
+            {
+              "activeDiscount": false,
+              "available": true,
+              "categories": [
+                "Action",
+                "Adventure"
+              ],
+              "discountPercentage": 0.0,
+              "id": "GAME-007",
+              "name": "Grand Theft Auto VI",
+              "price": 80.0
             }
           ]

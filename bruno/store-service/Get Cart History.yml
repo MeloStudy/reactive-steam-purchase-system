@@ -23,6 +23,8 @@ examples:
       status: 200
       statusText: OK
       headers:
+        - name: transfer-encoding
+          value: chunked
         - name: content-type
           value: application/json
       body:
@@ -33,18 +35,28 @@ examples:
               "cartId": "CART-001",
               "userId": "USER-001",
               "items": [
-                { "gameId": "GAME-001" }
+                {
+                  "gameId": "GAME-001"
+                }
               ],
-              "status": "CLOSED",
-              "updatedAt": "2026-05-16T20:00:00"
+              "updatedAt": "2026-05-21T15:32:34.789",
+              "status": "CLOSED"
             },
             {
-              "cartId": "CART-NEW",
+              "cartId": "6a0f293837edb2455b8fe1be",
               "userId": "USER-001",
               "items": [
-                { "gameId": "GAME-003" }
+                {
+                  "gameId": "GAME-003"
+                },
+                {
+                  "gameId": "GAME-001"
+                },
+                {
+                  "gameId": "GAME-007"
+                }
               ],
-              "status": "ACTIVE",
-              "updatedAt": "2026-05-20T22:00:00"
+              "updatedAt": "2026-05-21T16:00:12.036",
+              "status": "ACTIVE"
             }
           ]

@@ -37,6 +37,8 @@ examples:
       headers:
         - name: content-type
           value: application/json
+        - name: content-length
+          value: "42"
       body:
         type: json
         data: |-
