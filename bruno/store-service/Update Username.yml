@@ -1,0 +1,46 @@
+info:
+  name: Update Username
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{store_service_url}}/user/name"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "MeloDev Pro"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK - Username updated
+    request:
+      url: "{{store_service_url}}/user/name"
+      method: PUT
+      body:
+        type: json
+        data: |-
+          {
+            "name": "MeloDev Pro"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "userId": "USER-001",
+            "name": "MeloDev Pro"
+          }

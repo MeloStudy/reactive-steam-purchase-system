@@ -1,0 +1,95 @@
+info:
+  name: Remove Item from Cart
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: "{{store_service_url}}/cart/items/:itemId"
+  params:
+    - name: itemId
+      value: GAME-003
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK - Item removed from cart
+    request:
+      url: "{{store_service_url}}/cart/items/:itemId"
+      method: DELETE
+      params:
+        - name: itemId
+          value: GAME-003
+          type: path
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "cartId": "CART-NEW",
+            "userId": "USER-001",
+            "items": [],
+            "status": "ACTIVE",
+            "updatedAt": "2026-05-20T22:10:00"
+          }
+  - name: OK - Game not in cart (returns cart unchanged)
+    request:
+      url: "{{store_service_url}}/cart/items/:itemId"
+      method: DELETE
+      params:
+        - name: itemId
+          value: GAME-999
+          type: path
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "cartId": "CART-NEW",
+            "userId": "USER-001",
+            "items": [
+              { "gameId": "GAME-003" }
+            ],
+            "status": "ACTIVE",
+            "updatedAt": "2026-05-20T22:00:00"
+          }
+  - name: OK - No active cart (returns DRAFT)
+    request:
+      url: "{{store_service_url}}/cart/items/:itemId"
+      method: DELETE
+      params:
+        - name: itemId
+          value: GAME-001
+          type: path
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "cartId": "NOT-DEFINED",
+            "userId": "USER-001",
+            "items": [],
+            "status": "DRAFT",
+            "updatedAt": "2026-05-20T22:10:00"
+          }

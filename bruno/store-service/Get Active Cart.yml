@@ -1,0 +1,70 @@
+info:
+  name: Get Active Cart
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{store_service_url}}/cart"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK - Cart with items
+    request:
+      url: "{{store_service_url}}/cart"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "cart_id": "CART-NEW",
+            "user_id": "USER-001",
+            "items": [
+              {
+                "id": "GAME-001",
+                "name": "The Witcher 4",
+                "original_price": 60.0,
+                "final_price": 54.0,
+                "discount": 10.0,
+                "status": "OK"
+              }
+            ],
+            "total": 54.0,
+            "checkout_allowed": true,
+            "status": "OK",
+            "validations": []
+          }
+  - name: OK - Empty cart (DRAFT)
+    request:
+      url: "{{store_service_url}}/cart"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "cart_id": "NOT-DEFINED",
+            "user_id": "USER-001",
+            "items": [],
+            "total": 0.0,
+            "checkout_allowed": false,
+            "status": "DRAFT",
+            "validations": []
+          }

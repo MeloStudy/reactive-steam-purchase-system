@@ -1,0 +1,50 @@
+info:
+  name: Get Cart History
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{store_service_url}}/cart/history"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK - Returns all carts
+    request:
+      url: "{{store_service_url}}/cart/history"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          [
+            {
+              "cartId": "CART-001",
+              "userId": "USER-001",
+              "items": [
+                { "gameId": "GAME-001" }
+              ],
+              "status": "CLOSED",
+              "updatedAt": "2026-05-16T20:00:00"
+            },
+            {
+              "cartId": "CART-NEW",
+              "userId": "USER-001",
+              "items": [
+                { "gameId": "GAME-003" }
+              ],
+              "status": "ACTIVE",
+              "updatedAt": "2026-05-20T22:00:00"
+            }
+          ]

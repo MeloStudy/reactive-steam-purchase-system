@@ -1,0 +1,152 @@
+info:
+  name: Add Item to Cart
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{store_service_url}}/cart/items"
+  body:
+    type: json
+    data: |-
+      {
+        "game_id": "GAME-003"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: OK - New cart created and item added
+    request:
+      url: "{{store_service_url}}/cart/items"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "game_id": "GAME-003"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "cartId": "CART-NEW",
+            "userId": "USER-001",
+            "items": [
+              { "gameId": "GAME-003" }
+            ],
+            "status": "ACTIVE",
+            "updatedAt": "2026-05-20T22:00:00"
+          }
+  - name: OK - Item added to existing active cart
+    request:
+      url: "{{store_service_url}}/cart/items"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "game_id": "GAME-001"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "cartId": "CART-NEW",
+            "userId": "USER-001",
+            "items": [
+              { "gameId": "GAME-003" },
+              { "gameId": "GAME-001" }
+            ],
+            "status": "ACTIVE",
+            "updatedAt": "2026-05-20T22:01:00"
+          }
+  - name: 404 - Game not found
+    request:
+      url: "{{store_service_url}}/cart/items"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "game_id": "GAME-999"
+          }
+    response:
+      status: 404
+      statusText: Not Found
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "status": 404,
+            "error": "Not Found",
+            "message": "Game GAME-999 not found"
+          }
+  - name: 400 - Game not available (GAME-005 is unavailable + slow)
+    request:
+      url: "{{store_service_url}}/cart/items"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "game_id": "GAME-005"
+          }
+    response:
+      status: 400
+      statusText: Bad Request
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "status": 400,
+            "error": "Bad Request",
+            "message": "Game GAME-005 is not available"
+          }
+  - name: 500 - Game already in cart (unhandled - demo exception)
+    request:
+      url: "{{store_service_url}}/cart/items"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "game_id": "GAME-003"
+          }
+    response:
+      status: 500
+      statusText: Internal Server Error
+      headers:
+        - name: content-type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "path": "/cart/items",
+            "status": 500,
+            "error": "Internal Server Error"
+          }
